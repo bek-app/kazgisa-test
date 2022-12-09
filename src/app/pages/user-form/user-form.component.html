@@ -1,0 +1,198 @@
+<div class="user-form my-5">
+  <h1 class="text-center">2. Навигация между страницами и валидация данных</h1>
+  <div class="form-check">
+    <input
+      class="form-check-input"
+      type="radio"
+      name="user"
+      id="user"
+      [value]="true"
+      [ngModel]="userStatus"
+      (ngModelChange)="changeUserStatus($event)"
+    />
+    <label class="form-check-label" for="user"> Физическое лицо</label>
+  </div>
+  <div class="form-check">
+    <input
+      class="form-check-input"
+      type="radio"
+      name="org"
+      id="org"
+      [value]="false"
+      [ngModel]="userStatus"
+      (ngModelChange)="changeUserStatus($event)"
+    />
+    <label class="form-check-label" for="org"> Юридическое лицо </label>
+  </div>
+  <!--  -->
+  <form
+    [formGroup]="userForm"
+    (ngSubmit)="onSubmit()"
+    novalidate
+    *ngIf="userStatus; else orgForms"
+  >
+    <!--name  -->
+    <div class="mb-3">
+      <label for="name" class="form-label">Имя</label>
+      <input
+        type="text"
+        class="form-control"
+        id="firstName"
+        formControlName="firstName"
+        maxlength="255"
+        [ngClass]="{
+          'is-invalid': submitted && userF['firstName'].errors
+        }"
+      />
+      <div
+        *ngIf="submitted && userF['firstName'].errors"
+        class="invalid-feedback"
+      >
+        <div *ngIf="userF['firstName'].errors['required']">
+          Name is required
+        </div>
+        <div
+          *ngIf="userF['firstName'].hasError('maxlength')"
+          class="text-danger"
+        >
+          Maximum of 255 characters
+        </div>
+      </div>
+    </div>
+
+    <!--lastname  -->
+    <div class="mb-3">
+      <label for="name" class="form-label">Фамилия</label>
+      <input
+        type="text"
+        class="form-control"
+        id="lastName"
+        formControlName="lastName"
+        maxlength="255"
+        [ngClass]="{
+          'is-invalid': submitted && userF['lastName'].errors
+        }"
+      />
+      <div
+        *ngIf="submitted && userF['lastName'].errors"
+        class="invalid-feedback"
+      >
+        <div *ngIf="userF['lastName'].errors['required']">
+          Last Name is required
+        </div>
+        <div
+          *ngIf="userF['lastName'].hasError('maxlength')"
+          class="text-danger"
+        >
+          Maximum of 255 characters
+        </div>
+      </div>
+    </div>
+
+    <!--Отечество  -->
+    <div class="mb-3">
+      <label for="name" class="form-label">Отечество</label>
+      <input
+        type="text"
+        class="form-control"
+        id="middleName"
+        formControlName="middleName"
+        maxlength="255"
+        [ngClass]="{
+          'is-invalid': submitted && userF['middleName'].errors
+        }"
+      />
+      <div
+        *ngIf="submitted && userF['middleName'].errors"
+        class="invalid-feedback"
+      >
+        <div
+          *ngIf="userF['middleName'].hasError('maxlength')"
+          class="text-danger"
+        >
+          Maximum of 255 characters
+        </div>
+      </div>
+    </div>
+
+    <!-- ИИН -->
+    <div class="mb-3">
+      <label for="iin" class="form-label">ИИН</label>
+      <input
+        type="number"
+        class="form-control"
+        id="iin"
+        formControlName="iin"
+        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+        maxlength="12"
+        [ngClass]="{
+          'is-invalid': submitted && userF['iin'].errors
+        }"
+        (keypress)="onKeyPress($event)"
+      />
+      <div *ngIf="submitted && userF['iin'].errors" class="invalid-feedback">
+        <div *ngIf="userF['iin'].errors['required']">IIN is required</div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  <!--  -->
+  <ng-template #orgForms>
+    <div>
+      <form [formGroup]="orgForm" (ngSubmit)="onSubmit()" novalidate>
+        <!--orgName  -->
+        <div class="mb-3">
+          <label for="orgName" class="form-label">Имя</label>
+          <input
+            type="text"
+            class="form-control"
+            id="orgName"
+            formControlName="orgName"
+            maxlength="255"
+            [ngClass]="{
+              'is-invalid': submitted && orgF['orgName'].errors
+            }"
+          />
+          <div
+            *ngIf="submitted && orgF['orgName'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="orgF['orgName'].errors['required']">
+              Name is required
+            </div>
+            <div
+              *ngIf="orgF['orgName'].hasError('maxlength')"
+              class="text-danger"
+            >
+              Maximum of 255 characters
+            </div>
+          </div>
+        </div>
+        <!-- БИН -->
+        <div class="mb-3">
+          <label for="orgBin" class="form-label">БИН</label>
+          <input
+            type="number"
+            class="form-control"
+            id="orgBin"
+            formControlName="orgBin"
+            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+            maxlength="12"
+            [ngClass]="{
+              'is-invalid': submitted && orgF['orgBin'].errors
+            }"
+            (keypress)="onKeyPress($event)"
+          />
+          <div
+            *ngIf="submitted && orgF['orgBin'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="orgF['orgBin'].errors['required']">BIN is required</div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </ng-template>
+</div>

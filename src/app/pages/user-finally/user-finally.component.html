@@ -1,0 +1,57 @@
+<h1 class="text-center">
+  4) В третьем компоненте создать поле с вводом электронной почты и при успешной
+  валидации поля вывести модальное окно с успешным заполнением всех данных
+</h1>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="mt-5">
+  <div class="mb-3">
+    <label for="email" class="form-label">Почта</label>
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      formControlName="email"
+      [ngClass]="{
+        'is-invalid': submitted && f['email'].errors
+      }"
+    />
+    <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+      <div *ngIf="f['email'].errors['required']">Email is required</div>
+      <div
+        *ngIf="f['email'].hasError('pattern') && submitted"
+        class="text-danger"
+      >
+        Недопустимый символы
+      </div>
+      <div *ngIf="f['email'].hasError('maxlength')" class="text-danger">
+        Maximum of 255 characters
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" #open class="btn btn-primary">Submit</button>
+  <div #modal class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">Success</div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

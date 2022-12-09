@@ -1,0 +1,25 @@
+<h1 class="text-center">
+  3) Во втором компоненте создать поле с обязательной загрузкой файлов только
+  формата PDF.
+</h1>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="mt-5">
+  <div class="mb-3">
+    <label for="formFile" class="form-label">Default file input example</label>
+    <input
+      class="form-control"
+      type="file"
+      id="formFile"
+      accept="application/pdf"
+      formControlName="file"
+      [ngClass]="{
+        'is-invalid': submitted && f['file'].errors
+      }"
+    />
+
+    <div *ngIf="submitted && f['file'].errors" class="invalid-feedback">
+      <div *ngIf="f['file'].errors['required']">File is required</div>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
